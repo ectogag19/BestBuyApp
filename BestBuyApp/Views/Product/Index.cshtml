@@ -1,31 +1,48 @@
-@model IEnumerable<Product>
+@model IEnumerable<BestBuyApp.Models.Product>
 
-<h2> Products</h2>
+@{
+    ViewData["Title"] = "Products";
+}
 
-<div style="display: block">
-    <a href="/Product/InsertProduct/">Create a New Product</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold text-primary">Products</h2>
+    <a asp-action="InsertProduct" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Add Product
+    </a>
 </div>
 
-<table class="table">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Category</th>
-        <th>Sale</th>
-        <th>Stock</th>
-    </tr>
-    
-    @foreach (var product in @Model)
-    {
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover align-middle">
+        <thead class="table-primary">
         <tr>
-            <td><a href="Product/ViewProduct/@product.ProductID">@product.ProductID</a></td>
-            <td>@product.Name</td>
-            <td>@product.Price</td>
-            <td>@product.CategoryID</td>
-            <td>@product.OnSale</td>
-            <td>@product.StockLevel</td>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Price ($)</th>
+            <th>Category</th>
+            <th></th>
         </tr>
-    }
-    
-</table>
+        </thead>
+        <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductID</td>
+                <td>@product.Name</td>
+                <td>@product.Price.ToString("0.00")</td>
+                <td>@product.CategoryID</td>
+                <td class="text-end">
+                    <a asp-action="ViewProduct" asp-route-id="@product.ProductID" class="btn btn-sm btn-info text-white">
+                        <i class="bi bi-eye"></i> View
+                    </a>
+                    <a asp-action="UpdateProduct" asp-route-id="@product.ProductID" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+                    <a asp-action="DeleteProduct" asp-route-id="@product.ProductID" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
